@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+
+    /* Tema por defecto (Índigo) - se sobreescribe vía JS */
+    --color-primary-50: 238 242 255;
+    --color-primary-100: 224 231 255;
+    --color-primary-200: 199 210 254;
+    --color-primary-300: 165 180 252;
+    --color-primary-400: 129 140 248;
+    --color-primary-500: 99 102 241;
+    --color-primary-600: 79 70 229;
+    --color-primary-700: 67 56 202;
+    --color-primary-800: 55 48 163;
+    --color-primary-900: 49 46 129;
+    --color-primary-950: 30 27 75;
+    --theme-color: #6366f1;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-surface-light-2 text-slate-900 antialiased;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    overscroll-behavior-y: none;
+  }
+
+  .dark body {
+    @apply bg-surface-dark text-slate-100;
+  }
+
+  /* Fuentes escalables para accesibilidad */
+  html {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    html { font-size: 16px; }
+  }
+
+  /* Scrollbar moderno */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-slate-600;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+  }
+
+  /* Focus visible accesible */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
+  }
+}
+
+@layer components {
+  /* Tarjeta base */
+  .card {
+    @apply bg-white dark:bg-surface-dark-2 rounded-2xl shadow-card p-4 transition-colors;
+  }
+
+  .card-tight {
+    @apply bg-white dark:bg-surface-dark-2 rounded-xl shadow-soft p-3 transition-colors;
+  }
+
+  /* Botón base */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all
+           disabled:opacity-50 disabled:pointer-events-none select-none
+           px-4 py-2.5 text-sm active:scale-[0.97];
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 shadow-soft;
+  }
+
+  .btn-secondary {
+    @apply btn bg-slate-100 text-slate-700 hover:bg-slate-200
+           dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+  }
+
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger-500 text-white hover:bg-danger-600;
+  }
+
+  .btn-icon {
+    @apply inline-flex items-center justify-center w-10 h-10 rounded-full
+           transition-all active:scale-90 select-none;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800
+           border border-slate-200 dark:border-slate-700
+           text-slate-900 dark:text-slate-100
+           placeholder:text-slate-400 dark:placeholder:text-slate-500
+           focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20
+           transition-all outline-none text-base;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5;
+  }
+
+  /* Chips */
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium
+           bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300
+           transition-colors cursor-pointer select-none;
+  }
+
+  .chip-active {
+    @apply bg-primary-600 text-white dark:bg-primary-600 dark:text-white;
+  }
+
+  /* Nav items */
+  .nav-item {
+    @apply flex flex-col items-center justify-center gap-0.5 py-2 px-3 rounded-xl
+           text-slate-500 dark:text-slate-400
+           hover:text-slate-700 dark:hover:text-slate-200
+           transition-colors flex-1 min-w-0;
+  }
+
+  .nav-item-active {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+
+  /* Textos auxiliares */
+  .text-muted {
+    @apply text-slate-500 dark:text-slate-400;
+  }
+
+  .text-positive {
+    @apply text-success-600 dark:text-success-500;
+  }
+
+  .text-negative {
+    @apply text-danger-600 dark:text-danger-500;
+  }
+
+  /* Animaciones */
+  .animate-enter {
+    @apply animate-slide-up;
+  }
+
+  /* Safe area paddings */
+  .pt-safe {
+    padding-top: var(--safe-top);
+  }
+  .pb-safe {
+    padding-bottom: calc(var(--safe-bottom) + 0.5rem);
+  }
+  .pl-safe {
+    padding-left: var(--safe-left);
+  }
+  .pr-safe {
+    padding-right: var(--safe-right);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .skeleton {
+    @apply bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200
+           dark:from-slate-800 dark:via-slate-700 dark:to-slate-800
+           bg-[length:1000px_100%] animate-shimmer;
+  }
+}
